@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "## Remove the strong lines and get the continumm\n\nSNe <- read.table(\"../Data/dbf4.txt\",skip = 20)\ncolnames(SNe) <- c(\"SN\",\"Lambda\",\"F\")\nD6_1 <- SNe[SNe[,1]==\"D6-1\",]\nplot(D6_1[,2],D6_1[,3],\"l\")\n\n## Linear interpolation\nObj <- D6_1\nLambdaSeq <- Obj[,2]\nLambdamin <- min(LambdaSeq)\nLambdamax <- max(LambdaSeq)\nFSeq <- Obj[,3]\nFluxFun <- splinefun(LambdaSeq,FSeq,method =\"fmm\")\nTestLambda <- seq(from = Lambdamin,to = Lambdamax,length.out = 2^11)\nTestF <- FluxFun(TestLambda)\nlines(TestLambda,TestF,\"l\",col = 2)\n\nlibrary(SpecMatch)\nRcpp::sourceCpp('~/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp')\nres <- StarletWT(TestF)\nlines(TestLambda, StarletRC(res),col = 2)\nres[12,] <-  0\nres[11,] <- 0\nres[10,]<-0\nres[9,]<-0\nres[8,]<-0\nres[7,]<-0\nres[6,]<-0\n#\nres[5,]<-0\nres[4,]<- 0\nres[3,] <- 0\nres[2,]<-0\nres[1,] <- 0\nplot(D6_1[,2],D6_1[,3],\"l\")\nlines(TestLambda,StarletRC(res),\"l\",lwd = 2,col=3)\nlines(TestLambda,rep(0,2048),lwd = 2)\nres$C[res$C > M]\n\n\n\n###################################################\nresraw <- StarletWT(TestF)\nsigma <- MultiResSuppStarlet(resraw,2)\nres <- HardThreshold(resraw,sigma)\nresraw[6:12,] = 0\nres[6:12,] = 0\nplot(TestLambda,StarletRC(resraw),\"l\")\nlines(TestLambda,StarletRC(res),col = 2,lwd = 2)\n\n\n\nresraw <- StarletWT(TestF)\nsigma <- MultiResSuppStarlet(resraw,2)\nres <- HardThreshold(resraw,sigma)\nplot(TestLambda,StarletRC(resraw),\"l\")\nlines(TestLambda,StarletRC(res),col = 2,lwd = 2)\n",
+    "created" : 1541276494771.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2695193695",
+    "id" : "D7A84218",
+    "lastKnownWriteTime" : 1541522372,
+    "last_content_update" : 1541522372585,
+    "path" : "~/Dropbox/project/Wang/Code/PMT_step1.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "useDynLib(SpecMatch)\nimportFrom(Rcpp, evalCpp)\nexportPattern(\"^[[:alpha:]]+\")\nimport(methods,Rcpp)\n",
+    "created" : 1540871429681.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "312942175",
+    "id" : "D2FD8A2B",
+    "lastKnownWriteTime" : 1540871456,
+    "last_content_update" : 1540871456052,
+    "path" : "~/Dropbox/project/Wang/SpecMatch/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_namespace"
+}

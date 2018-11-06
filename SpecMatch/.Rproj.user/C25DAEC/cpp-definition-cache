@@ -1,0 +1,62 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 9,
+                "name" : "StarletWT(arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@StarletWT#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 75,
+                "name" : "StarletRC(arma::mat)",
+                "parent_name" : "",
+                "usr" : "c:@F@StarletRC#$@N@arma@C@Mat>#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 112,
+                "name" : "PMT(arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PMT#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 177,
+                "name" : "PMTRC(arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PMTRC#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 214,
+                "name" : "MultiResSuppPMT(arma::vec, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@MultiResSuppPMT#$@N@arma@C@Col>#d#I#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 255,
+                "name" : "MultiResSuppStarlet(arma::vec, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@MultiResSuppStarlet#$@N@arma@C@Col>#d#I#"
+            }
+        ],
+        "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+        "file_last_write" : 1541387325
+    }
+]
