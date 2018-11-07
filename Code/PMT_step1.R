@@ -12,42 +12,24 @@ Lambdamin <- min(LambdaSeq)
 Lambdamax <- max(LambdaSeq)
 FSeq <- Obj[,3]
 FluxFun <- splinefun(LambdaSeq,FSeq,method ="fmm")
-TestLambda <- seq(from = Lambdamin,to = Lambdamax,length.out = 2^11)
-TestF <- FluxFun(TestLambda)
-lines(TestLambda,TestF,"l",col = 2)
+TestLambda0 <- seq(from = Lambdamin,to = Lambdamax,length.out = 2^11)
+TestF0 <- FluxFun(TestLambda)
+lines(TestLambda,TestF0,"l",col = 2)
 
 library(SpecMatch)
 Rcpp::sourceCpp('~/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp')
-res <- StarletWT(TestF)
-lines(TestLambda, StarletRC(res),col = 2)
-res[12,] <-  0
-res[11,] <- 0
-res[10,]<-0
-res[9,]<-0
-res[8,]<-0
-res[7,]<-0
-res[6,]<-0
-#
-res[5,]<-0
-res[4,]<- 0
-res[3,] <- 0
-res[2,]<-0
-res[1,] <- 0
-plot(D6_1[,2],D6_1[,3],"l")
-lines(TestLambda,StarletRC(res),"l",lwd = 2,col=3)
-lines(TestLambda,rep(0,2048),lwd = 2)
-res$C[res$C > M]
-
 
 
 ###################################################
-resraw <- StarletWT(TestF)
-sigma <- MultiResSuppStarlet(resraw,2)
-res <- HardThreshold(resraw,sigma)
+resraw <- StarletWT(TestF0)
+
+sigma <- MultiResSuppStarlet(TestF0,10)
+res <- HardThreshold(resraw,3*sigma)
 resraw[6:12,] = 0
 res[6:12,] = 0
-plot(TestLambda,StarletRC(resraw),"l")
-lines(TestLambda,StarletRC(res),col = 2,lwd = 2)
+plot(TestLambda0,StarletRC(resraw),"l",lwd = 2)
+lines(TestLambda0,StarletRC(res),col = 2,lwd = 2)
+lines(TemInterpLambda,TemplateF_denoise,col=3)
 
 
 
@@ -56,3 +38,9 @@ sigma <- MultiResSuppStarlet(resraw,2)
 res <- HardThreshold(resraw,sigma)
 plot(TestLambda,StarletRC(resraw),"l")
 lines(TestLambda,StarletRC(res),col = 2,lwd = 2)
+
+
+#####################################################
+library(SpecMatch)
+CrossCorrelation(D6_1[10:3000,2:3],D6_1[,2:3])
+

@@ -6,6 +6,41 @@
 
 using namespace Rcpp;
 
+// CrossCorr
+double CrossCorr(arma::vec TestSignal, arma::vec TemplateSignal);
+RcppExport SEXP _SpecMatch_CrossCorr(SEXP TestSignalSEXP, SEXP TemplateSignalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type TestSignal(TestSignalSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type TemplateSignal(TemplateSignalSEXP);
+    rcpp_result_gen = Rcpp::wrap(CrossCorr(TestSignal, TemplateSignal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test
+double test(arma::vec hi);
+RcppExport SEXP _SpecMatch_test(SEXP hiSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type hi(hiSEXP);
+    rcpp_result_gen = Rcpp::wrap(test(hi));
+    return rcpp_result_gen;
+END_RCPP
+}
+// DeterStartEnd
+arma::vec DeterStartEnd(arma::vec TestSignalWave, arma::vec TemplateSignalWave);
+RcppExport SEXP _SpecMatch_DeterStartEnd(SEXP TestSignalWaveSEXP, SEXP TemplateSignalWaveSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type TestSignalWave(TestSignalWaveSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type TemplateSignalWave(TemplateSignalWaveSEXP);
+    rcpp_result_gen = Rcpp::wrap(DeterStartEnd(TestSignalWave, TemplateSignalWave));
+    return rcpp_result_gen;
+END_RCPP
+}
 // StarletWT
 arma::mat StarletWT(arma::vec X);
 RcppExport SEXP _SpecMatch_StarletWT(SEXP XSEXP) {
@@ -51,38 +86,78 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// MultiResSuppPMT
-arma::mat MultiResSuppPMT(arma::vec X, int SimNo);
-RcppExport SEXP _SpecMatch_MultiResSuppPMT(SEXP XSEXP, SEXP SimNoSEXP) {
+// MAD
+double MAD(arma::rowvec X);
+RcppExport SEXP _SpecMatch_MAD(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type X(XSEXP);
-    Rcpp::traits::input_parameter< int >::type SimNo(SimNoSEXP);
-    rcpp_result_gen = Rcpp::wrap(MultiResSuppPMT(X, SimNo));
+    Rcpp::traits::input_parameter< arma::rowvec >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(MAD(X));
     return rcpp_result_gen;
 END_RCPP
 }
 // MultiResSuppStarlet
-arma::mat MultiResSuppStarlet(arma::vec X, int SimNo);
-RcppExport SEXP _SpecMatch_MultiResSuppStarlet(SEXP XSEXP, SEXP SimNoSEXP) {
+arma::vec MultiResSuppStarlet(arma::vec X, int NoSimu);
+RcppExport SEXP _SpecMatch_MultiResSuppStarlet(SEXP XSEXP, SEXP NoSimuSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type X(XSEXP);
-    Rcpp::traits::input_parameter< int >::type SimNo(SimNoSEXP);
-    rcpp_result_gen = Rcpp::wrap(MultiResSuppStarlet(X, SimNo));
+    Rcpp::traits::input_parameter< int >::type NoSimu(NoSimuSEXP);
+    rcpp_result_gen = Rcpp::wrap(MultiResSuppStarlet(X, NoSimu));
+    return rcpp_result_gen;
+END_RCPP
+}
+// HardThreshold
+arma::mat HardThreshold(arma::mat C, arma::rowvec M);
+RcppExport SEXP _SpecMatch_HardThreshold(SEXP CSEXP, SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type C(CSEXP);
+    Rcpp::traits::input_parameter< arma::rowvec >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(HardThreshold(C, M));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sign
+int sign(double x);
+RcppExport SEXP _SpecMatch_sign(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sign(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// SoftThreshold
+arma::mat SoftThreshold(arma::mat C, arma::vec M);
+RcppExport SEXP _SpecMatch_SoftThreshold(SEXP CSEXP, SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type C(CSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(SoftThreshold(C, M));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_SpecMatch_CrossCorr", (DL_FUNC) &_SpecMatch_CrossCorr, 2},
+    {"_SpecMatch_test", (DL_FUNC) &_SpecMatch_test, 1},
+    {"_SpecMatch_DeterStartEnd", (DL_FUNC) &_SpecMatch_DeterStartEnd, 2},
     {"_SpecMatch_StarletWT", (DL_FUNC) &_SpecMatch_StarletWT, 1},
     {"_SpecMatch_StarletRC", (DL_FUNC) &_SpecMatch_StarletRC, 1},
     {"_SpecMatch_PMT", (DL_FUNC) &_SpecMatch_PMT, 1},
     {"_SpecMatch_PMTRC", (DL_FUNC) &_SpecMatch_PMTRC, 2},
-    {"_SpecMatch_MultiResSuppPMT", (DL_FUNC) &_SpecMatch_MultiResSuppPMT, 2},
+    {"_SpecMatch_MAD", (DL_FUNC) &_SpecMatch_MAD, 1},
     {"_SpecMatch_MultiResSuppStarlet", (DL_FUNC) &_SpecMatch_MultiResSuppStarlet, 2},
+    {"_SpecMatch_HardThreshold", (DL_FUNC) &_SpecMatch_HardThreshold, 2},
+    {"_SpecMatch_sign", (DL_FUNC) &_SpecMatch_sign, 1},
+    {"_SpecMatch_SoftThreshold", (DL_FUNC) &_SpecMatch_SoftThreshold, 2},
     {NULL, NULL, 0}
 };
 

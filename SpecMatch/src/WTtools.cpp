@@ -345,8 +345,8 @@ arma::mat HardThreshold(arma::mat C, arma::rowvec M){
   int N = C.n_cols;
   int J = C.n_rows;
   for(int n = 0;n<N;n++){
-    for(int j = 0;j<J;j++){
-      if(fabs(C.at(j,n)) < 3*M.at(j)){C.at(j,n) = 0;}
+    for(int j = 0;j< J;j++){
+      if(fabs(C.at(j,n)) < M.at(j)){C.at(j,n) = 0;}
     }
   }
   return C;
@@ -364,7 +364,7 @@ arma::mat SoftThreshold(arma::mat C, arma::vec M){
   int N = C.n_cols;
   int J = C.n_rows;
   for(int n = 0;n<N;n++){
-    for(int j = 0;j<J;j++){
+    for(int j = 0;j<(J-1);j++){
       if(fabs(C.at(j,n)) < 3*M.at(j)){C.at(j,n) = 0;}
       else{C.at(j,n) = sign(C.at(j,n))*fabs(C.at(j,n))-M.at(j);}
     }

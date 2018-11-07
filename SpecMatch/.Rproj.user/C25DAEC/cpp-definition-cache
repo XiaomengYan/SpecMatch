@@ -2,6 +2,39 @@
     {
         "definitions" : [
             {
+                "column" : 8,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/CrossCorr.cpp",
+                "kind" : 6,
+                "line" : 8,
+                "name" : "CrossCorr(arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@CrossCorr#$@N@arma@C@Col>#d#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/CrossCorr.cpp",
+                "kind" : 6,
+                "line" : 28,
+                "name" : "test(arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@test#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/CrossCorr.cpp",
+                "kind" : 6,
+                "line" : 33,
+                "name" : "DeterStartEnd(arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeterStartEnd#$@N@arma@C@Col>#d#S0_#"
+            }
+        ],
+        "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/CrossCorr.cpp",
+        "file_last_write" : 1541531810
+    },
+    {
+        "definitions" : [
+            {
                 "column" : 11,
                 "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
                 "kind" : 6,
@@ -38,25 +71,52 @@
                 "usr" : "c:@F@PMTRC#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#"
             },
             {
-                "column" : 11,
+                "column" : 8,
                 "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
                 "kind" : 6,
-                "line" : 214,
-                "name" : "MultiResSuppPMT(arma::vec, int)",
+                "line" : 262,
+                "name" : "MAD(arma::rowvec)",
                 "parent_name" : "",
-                "usr" : "c:@F@MultiResSuppPMT#$@N@arma@C@Col>#d#I#"
+                "usr" : "c:@F@MAD#$@N@arma@C@Row>#d#"
             },
             {
                 "column" : 11,
                 "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
                 "kind" : 6,
-                "line" : 255,
+                "line" : 274,
                 "name" : "MultiResSuppStarlet(arma::vec, int)",
                 "parent_name" : "",
                 "usr" : "c:@F@MultiResSuppStarlet#$@N@arma@C@Col>#d#I#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 344,
+                "name" : "HardThreshold(arma::mat, arma::rowvec)",
+                "parent_name" : "",
+                "usr" : "c:@F@HardThreshold#$@N@arma@C@Mat>#d#$@N@arma@C@Row>#d#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 356,
+                "name" : "sign(double)",
+                "parent_name" : "",
+                "usr" : "c:@F@sign#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
+                "kind" : 6,
+                "line" : 363,
+                "name" : "SoftThreshold(arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@SoftThreshold#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#"
             }
         ],
         "file" : "/Users/yanxiaomeng/Dropbox/project/Wang/SpecMatch/src/WTtools.cpp",
-        "file_last_write" : 1541387325
+        "file_last_write" : 1541538325
     }
 ]

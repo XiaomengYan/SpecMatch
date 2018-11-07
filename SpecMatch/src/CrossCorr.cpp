@@ -39,9 +39,9 @@ arma::vec DeterStartEnd(arma::vec TestSignalWave, arma::vec TemplateSignalWave){
   double Testmax = TestSignalWave.max();
   arma::vec StartEnd(2,fill::zeros);
   //Determine the start point
-  if(Testmin>Templatemin && Testmin<Templatemax){
+  if(Testmin > Templatemin && Testmin<Templatemax){
     for(int n=0;n<N_template;n++){
-      if(Testmin>TemplateSignalWave.at(n)&&Testmin <= TemplateSignalWave.at(n+1)){StartEnd.at(0) = n+2;break;}//if
+      if(Testmin >TemplateSignalWave.at(n)&&Testmin <= TemplateSignalWave.at(n+1)){StartEnd.at(0) = n+2;break;}//if
     }//for
   }else if(Testmin <= Templatemin){
     StartEnd.at(0) = 1;
@@ -51,7 +51,7 @@ arma::vec DeterStartEnd(arma::vec TestSignalWave, arma::vec TemplateSignalWave){
   //Determine the end point
   if(Testmax>Templatemin && Testmax<Templatemax){
     for(int n=0;n<N_template;n++){
-      if(Testmax>TemplateSignalWave.at(n)&&Testmax <= TemplateSignalWave.at(n+1)){StartEnd.at(1) = n+1;break;}//if
+      if(Testmax>TemplateSignalWave.at(n)&&Testmax <= TemplateSignalWave.at(n+1)){StartEnd.at(1) = n+2;break;}//if
     }//for
   }else if(Testmax <= Templatemin){
     StartEnd.at(1) = 0;
