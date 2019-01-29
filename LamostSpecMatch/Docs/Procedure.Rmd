@@ -1,0 +1,187 @@
+---
+title: "Cross Correlation to Match Noisy Spectrum"
+# author: "Xiaomeng Yan"
+#date: "10/26/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Original Spectrum 
+Plot three peculiar spectrum D6-1,D6-2 and D6-3 (3000-7000)
+
+### 1.1 Normalization
+Normalized Flux = 1/max(Flux)*Flux
+
+```{r,echo=FALSE}
+SNe <- read.table("../Data/dbf4.txt",skip = 20)
+D6_1 <- SNe[SNe[,1]== "D6-1",c(2,3)]
+Z_1 <- 1293000/299792458
+D6_1 <- D6_1[D6_1[,1]>=3000&D6_1[,1]<=7000,]
+D6_1[,1] <- D6_1[,1]/(1+Z_1)
+D6_1[,2] <- 1/max(D6_1[,2])*D6_1[,2]
+
+D6_2 <- SNe[SNe[,1]== "D6-2",c(2,3)]
+D6_2 <- D6_2[D6_2[,1]>=3000&D6_2[,1]<=7000,]
+Z_2 <- 894000/299792458
+D6_2[,1] <- D6_2[,1]/(1+Z_2)
+D6_2[,2] <- 1/max(D6_2[,2])*D6_2[,2]
+
+D6_3 <- SNe[SNe[,1]== "D6-3",c(2,3)]
+D6_3 <- D6_3[D6_3[,1]>=3000&D6_3[,1]<=7000,]
+Z_3 <- 1247000/299792458
+D6_3[,1] <- D6_3[,1]/(1+Z_3)
+D6_3[,2]<- 1/max(D6_3[,2])*D6_3[,2]
+{plot(D6_1[,1],D6_1[,2],"l",lwd =2,col = 2,xlab = "Rest Wavelength",ylab = "Normalized Flux",ylim = c(0,1),xlim = c(3500,7000))
+lines(D6_2[,1],D6_2[,2],col = 3, lwd=2)
+lines(D6_3[,1],D6_3[,2],col = 4, lwd=2)
+legend(x= 7500,y = 1,lwd = c(2,2,2),col = c(1,2,3),legend = c("D6-1","D6-2","D6-3"))}
+
+
+```
+
+
+## 2. Isotropic undecimated wavelet transform : Starlet transform 
+The Isotropic Undecimated Wavelet Transform (IUWT) algorithm is well known in the astronomical domain 
+becasue it is well adapted to astronomical data where objects are more or less isotropic in most cases. It is also known as starlet wavelet transform.
+
+The the wavelet function is defined as below: 
+$$
+\phi(\lambda) = \frac{1}{16}(|\lambda-2|^3-4|\lambda-1|^3 + 6|t|^3-4|\lambda+1|^3+|\lambda+2|^3)
+$$
+where $\phi(\lambda)$ is the B-spline of order 3 and the wavelet function is defined as the difference 
+between two resolutions. The related pair of filters $(h,g)$ is defined by 
+$$
+h[k] = [1,4,6,4,1]/16, k = -2,..,2\\
+g[k] = \delta[k] - h[k]
+$$
+
+### 2.1 Result of Starlet Transform and noise removal
+For any spectra F,
+$$F = M + L + N$$
+where $M$ is the continuum, $L$ is the information lines and $N$ is the noise.
+
+
+
+#### D6-1
+```{r,echo=FALSE}
+Rcpp::sourceCpp('../SpecMatch/src/WTtools.cpp')
+Spectra <- D6_1
+Lambda <- Spectra[,1]
+Flux <- Spectra[,2]
+Len <- length(Lambda)
+J <- floor(log(Len,base = 2))
+    ## Spectra
+    ###  Interpolation of Spectra
+spectraFun <- splinefun(Lambda,Flux,method = "fmm")
+InterpLambda <- seq(from = min(Lambda),to = max(Lambda),length.out = 2^J)
+InterpF <- spectraFun(InterpLambda)
+    ### Denoise Spectra
+C0 <- StarletWT(InterpF)
+Sigma <- MultiResSuppStarlet(InterpF,20)
+C <- HardThreshold(C0,3*Sigma)
+Flux_denoise <- StarletRC(C)
+C[floor((J+1)/2):(J+1),]  = 0
+Signal_denoise <- StarletRC(C)## Remove noise and continumm
+{plot(InterpLambda, InterpF,"l",lwd = 2,ylim = c(-0.3,1),ylab = "Normalized Flux", xlab = "Rest Wavelength")
+lines(InterpLambda,Flux_denoise,col = 2,lwd = 2)
+lines(InterpLambda,Flux_denoise-Signal_denoise,col = 3,lwd = 2)
+lines(InterpLambda,InterpF-(Flux_denoise-Signal_denoise),col = "grey",lwd = 2)
+lines(InterpLambda,Signal_denoise,"l",col = 4,lwd = 2)
+legend(x  = 6500,y =1, legend = c("M+L+N","M+L","M","L+N","L"),col = c(1,2,3,"grey",4),lwd = c(2,2,2,2,2),cex = 0.6)}
+
+```
+
+#### D6-2
+
+```{r,echo = FALSE}
+Rcpp::sourceCpp('../SpecMatch/src/WTtools.cpp')
+Spectra <- D6_2
+
+Lambda <- Spectra[,1]
+Flux <- Spectra[,2]
+Len <- length(Lambda)
+J <- floor(log(Len,base = 2))
+    ## Spectra
+    ###  Interpolation of Spectra
+spectraFun <- splinefun(Lambda,Flux,method = "fmm")
+InterpLambda <- seq(from = min(Lambda),to = max(Lambda),length.out = 2^J)
+InterpF <- spectraFun(InterpLambda)
+    ### Denoise Spectra
+C0 <- StarletWT(InterpF)
+Sigma <- MultiResSuppStarlet(InterpF,20)
+C <- HardThreshold(C0,3*Sigma)
+Flux_denoise <- StarletRC(C)
+C[floor((J+1)/2):(J+1),]  = 0
+Signal_denoise <- StarletRC(C)## Remove noise and continumm
+{plot(InterpLambda, InterpF,"l",lwd = 2,ylim = c(-0.3,1),ylab = "Normalized Flux", xlab = "Rest Wavelength")
+lines(InterpLambda,Flux_denoise,col = 2,lwd = 2)
+lines(InterpLambda,Flux_denoise-Signal_denoise,col = 3,lwd = 2)
+lines(InterpLambda,InterpF-(Flux_denoise-Signal_denoise),col = "grey",lwd = 2)
+lines(InterpLambda,Signal_denoise,"l",col = 4,lwd = 2)
+legend(x  = 6500,y =1, legend = c("M+L+N","M+L","M","L+N","L"),col = c(1,2,3,"grey",4),lwd = c(2,2,2,2,2),cex = 0.6)}
+```
+
+
+#### D6-3
+
+```{r,echo = FALSE}
+Rcpp::sourceCpp('../SpecMatch/src/WTtools.cpp')
+Spectra <- D6_3
+
+Lambda <- Spectra[,1]
+Flux <- Spectra[,2]
+Len <- length(Lambda)
+J <- floor(log(Len,base = 2))
+    ## Spectra
+    ###  Interpolation of Spectra
+spectraFun <- splinefun(Lambda,Flux,method = "fmm")
+InterpLambda <- seq(from = min(Lambda),to = max(Lambda),length.out = 2^J)
+InterpF <- spectraFun(InterpLambda)
+    ### Denoise Spectra
+C0 <- StarletWT(InterpF)
+Sigma <- MultiResSuppStarlet(InterpF,5)
+C <- HardThreshold(C0,3*Sigma)
+Flux_denoise <- StarletRC(C)
+C[floor((J+1)/2):(J+1),]  = 0
+Signal_denoise <- StarletRC(C)## Remove noise and continumm
+{plot(InterpLambda, InterpF,"l",lwd = 2,ylim = c(-0.3,1),ylab = "Normalized Flux", xlab = "Rest Wavelength")
+lines(InterpLambda,Flux_denoise,col = 2,lwd = 2)
+lines(InterpLambda,Flux_denoise-Signal_denoise,col = 3,lwd = 2)
+lines(InterpLambda,InterpF-(Flux_denoise-Signal_denoise),col = "grey",lwd = 2)
+lines(InterpLambda,Signal_denoise,"l",col = 4,lwd = 2)
+legend(x  = 6500,y =1, legend = c("M+L+N","M+L","M","L+N","L"),col = c(1,2,3,"grey",4),lwd = c(2,2,2,2,2),cex = 0.6)}
+```
+
+## 3. Cross Correlation to match two spectrum
+In signal processing, cross-correlation is a measure of similarity between two signals. The definition of it is the same with the correlation between two random variables in statistics and the each element is one realization of the corresponding random variable. If we have two signal $f(x)$ and $g(x)$, the cross correlation coefficient is defined by the equation below,
+$$
+\gamma_{fg } = \frac{1}{N \sigma_f\sigma_g}\sum_x(f(x) - \bar{f})(g(x)-\bar{g})
+$$
+
+We only consider the cross correlation between the information lines of the spectra (L defined before). To test this idea, we define a new spectra $D6-1_s$ which is the subset of the origianl D6-1 where $\lambda_s\in [4892.984,5862.962]$ and define $D6-2_s,\lambda_s\in[4887.184,7932.187]$ and $D6-3_s, \lambda_s\in [4955.424,8000.258]$ in the same way. Calculate the cross correlation coefficient with D6-1. 
+
+
+```{r}
+source('~/Dropbox/project/Wang/LamostSpecMatch/SpecMatch/R/CrossCorrelation.R', echo=TRUE)
+Rcpp::sourceCpp('../SpecMatch/src/CrossCorr.cpp')
+t1 = Sys.time()
+CrossCorrelation(D6_1,D6_2)
+CrossCorrelation(D6_1,D6_3)
+CrossCorrelation(D6_3,D6_2)
+Sys.time()-t1
+```
+
+
+$D6-1_s$ | $D6-2_s$ | $D6-3_s$
+------------- | ------------- |  -----------
+0.9500597  | -0.04024396 | -0.03792305
+
+Because $D6-1_s$ is a subset of $D6-1$, the cross correlation between $D6-1_s$ and $D6-1$ is close to 1. It only takes 0.03419304 secs to calculate cross correlation coefficient. 
+
+## Reference:
+1. Anisimova, Elena, Jan Bednar, and Petr Pata. "Astronomical image denoising using curvelet and starlet transform." Radioelektronika (RADIOELEKTRONIKA), 2013 23rd International Conference. IEEE, 2013.
+
+2. Jean-Luc Starck et al (2015). Sparse Image and Signal Procedding 1-77,86-91
